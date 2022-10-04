@@ -1,17 +1,40 @@
 package example.reactive.domain.student;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Table;
+
+import java.util.Objects;
+import java.util.Random;
+import java.util.UUID;
 
 
 @Data
-@RequiredArgsConstructor
 @Table(name = "students")
-public class Student {
+@NoArgsConstructor
+public class Student implements Persistable<Integer> {
 
     @Id
-    private String id;
-    private final String name;
+    private Integer id;
+    private String name;
+
+    public Student(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Student(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean isNew() {
+        boolean result = Objects.isNull(id);
+        Random random = new Random();
+        int randomWithNextInt = random.nextInt();
+        this.id = result ? randomWithNextInt : this.id;
+        return result;
+    }
 }

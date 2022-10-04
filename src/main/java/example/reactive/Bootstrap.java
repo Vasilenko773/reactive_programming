@@ -17,9 +17,9 @@ public class Bootstrap implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("#####");
-        studentReactiveRepository.save(new Student("Boris"));
-        studentReactiveRepository.save(new Student("Moris"));
-        System.out.println("student count:" + studentReactiveRepository.count().block());
+        System.out.println(studentReactiveRepository.save(new Student("Boris")).block());
+        System.out.println(studentReactiveRepository.findAll().blockFirst());
+
 
     }
 }
